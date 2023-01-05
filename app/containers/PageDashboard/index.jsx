@@ -1,21 +1,22 @@
 import React from "react";
 
-import PageLayout from "../PageLayout";
+import Body from "@/components/Body/index";
 
-import Statuses from "@/components/Claim/Statuses";
-import GridClaim from "@/components/Claim/GridClaim";
+import PageLayout from "../PageLayout";
 
 function Dashboard() {
   React.useEffect(() => {
-    window.document.title = "Dashboard";
+    window.document.title = "Dashboard-Al Jamiatul Ashrafia";
     return () => {
-      window.document.title = "Dent Doc Connect";
+      window.document.title = "Al Jamiatul Ashrafia";
     };
   }, []);
   return (
     <PageLayout title="Dashboard">
-      <Statuses />
-      <GridClaim />
+      <Body />
+
+      {/* <Statuses />
+      <GridClaim /> */}
     </PageLayout>
   );
 }

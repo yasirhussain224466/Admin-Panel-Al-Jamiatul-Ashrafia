@@ -19,9 +19,9 @@ export const ROUTES = [
   {
     path: "/",
     component: Dashboard,
-    routeComponent: RouteAuth,
+    routeComponent: RouteUnauth,
     exact: true,
-    roles: [ROLES.admin.value],
+    // roles: [ROLES.admin.value],
     title: "Dashboard",
   },
   {

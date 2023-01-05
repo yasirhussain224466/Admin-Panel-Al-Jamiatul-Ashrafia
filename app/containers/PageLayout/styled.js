@@ -6,6 +6,10 @@ export const Wrapper = styled.div`
   @media screen and (max-width: ${(props) => props.theme.breakpoint.md}) {
     width: ${(props) => props.member && "100%"};
   }
+  .site-layout {
+    padding: 0 20px;
+    background-color: #f0f2f;
+  }
   .body-grid {
     min-height: 100vh;
     font-family: "popins_light";
