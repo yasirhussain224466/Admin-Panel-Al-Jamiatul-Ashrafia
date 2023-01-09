@@ -14,9 +14,6 @@ const fontWeights = {
 };
 
 const breakpoint = {
-  // lg: "1058px",
-  // md: "768px",
-  // sm: "480px",
   lg: "85.375em",
   md: "64em",
   sm: "48em",
@@ -24,6 +21,7 @@ const breakpoint = {
   xxlg: "160em",
 };
 const colors = {
+  skyBlue: "#0094c2",
   bg1: "#E9F3F5",
   bg2: "#e8e9eb",
   darkGreyish: "#C6C6C6",
@@ -31,6 +29,8 @@ const colors = {
   white: "#fff",
   black: "#000",
   black2: "#3f434a",
+  green: "#008000",
+  red: "#ff0000",
   gray: "darkgray",
   gray2: "#8A9099",
   gray3: "#ACACAD",
@@ -49,12 +49,10 @@ const colors = {
   green2: "#49C96D",
   darkblue: "#1C2E96",
   yellowishOrange: "#FF965D",
-  // eslint-disable-next-line
   darkBlue: "#161625",
-  // eslint-disable-next-line
   darkGrey: "#1E1F2D",
-  // eslint-disable-next-line
   lightWhite: "#8b8d92",
+  orange: "#FF9800",
 };
 
 export default {

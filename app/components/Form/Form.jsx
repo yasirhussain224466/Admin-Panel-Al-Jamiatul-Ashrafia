@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const Form = ({ errors, onSubmit, ...rest }) => {
   const methods = useForm();
-  const { setError } = methods;
+  const { handleSubmit, setError } = methods;
 
   useEffect(() => {
     if (errors) {
@@ -19,7 +19,7 @@ const Form = ({ errors, onSubmit, ...rest }) => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={onSubmit} {...rest} />
+      <form onSubmit={handleSubmit(onSubmit)} {...rest} />
     </FormProvider>
   );
 };

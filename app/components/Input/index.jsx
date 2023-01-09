@@ -1,9 +1,10 @@
+/* eslint-disable react/sort-prop-types */
 import React from "react";
 import PropTypes from "prop-types";
 
-import * as S from "./styled";
-
 import ErrorMessage from "@/components/ErrorMessage";
+
+import * as S from "./styled";
 
 const TextInput = ({
   blueLine,
@@ -12,22 +13,22 @@ const TextInput = ({
   error,
   helper,
   label,
+  maxLength,
   onBlur,
   onChange,
+  onKeyDown,
   placeholder,
   type,
   value,
-  onKeyDown,
-  maxLength,
   ...rest
 }) => (
   <S.Wrapper>
     <h6 className="input_label">{label}</h6>
     <input
-      maxLength={maxLength}
       className={`${blueLine}  ${error ? "input-error error-border" : "input"}`}
       defaultValue={defaultValue}
       disabled={disabled}
+      maxLength={maxLength}
       onBlur={onBlur}
       onChange={onChange}
       onKeyDown={onKeyDown}

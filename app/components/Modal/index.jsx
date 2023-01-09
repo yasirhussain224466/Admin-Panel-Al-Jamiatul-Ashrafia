@@ -1,93 +1,91 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { Modal } from "antd";
 import PropTypes from "prop-types";
 
-import close from "@/assets/images/xclose.svg";
+import Button from "@/components/Button";
 
-// eslint-disable-next-line
 import * as S from "./styled";
 
-export default function Modal({
+const Index = ({
+  buttontitle,
+  cancelTitle,
+  handleCancel,
+  handleClick,
+  handleVisible,
   modalContent,
+  noButton,
   setVisible,
-  changeWidth,
-  trigger,
+  showCancelBtn,
+  title,
   visible,
-  widthFit,
-}) {
-  const [show, setShow] = React.useState(false);
-  const showModal = () => {
-    setShow(true);
-  };
-
-  const hideModal = () => {
-    setShow(false);
-    setVisible(false);
-  };
-
-  useEffect(() => {
-    setShow(visible);
-  }, [visible]);
-
-  window.onclick = (e) => {
-    if (show && e.target.className === "backdrop display-block") {
+  width,
+  ...props
+}) => {
+  const cancel = () => {
+    if (handleCancel && typeof handleCancel === "function") {
+      handleCancel();
+    } else {
       setVisible(false);
     }
   };
-
   return (
-    <S.Modal changeWidth={changeWidth ?? false}>
-      <div id="modal">
-        <ModalTrigger handleClose={hideModal} show={show} widthFit={widthFit}>
-          {modalContent}
-        </ModalTrigger>
-        {trigger && (
-          <button className="button fade-btn" onClick={showModal} type="button">
-            {trigger}
-          </button>
-        )}
-      </div>
-    </S.Modal>
+    <S.Wrapper>
+      {!noButton || props?.isReport ? (
+        <Button
+          onClick={handleVisible}
+          size="small"
+          type="primary"
+          value={buttontitle || title}
+        />
+      ) : (
+        ""
+      )}
+      {/*  */}
+      <Modal
+        centered
+        className="Modal"
+        footer={[
+          <div style={{ display: "flex", justifyContent: "end" }}>
+            {showCancelBtn && (
+              <Button
+                onClick={cancel}
+                type="link"
+                value={cancelTitle ?? "Cancel"}
+              />
+            )}
+            <Button onClick={handleClick} type="link" value={title} />
+          </div>,
+        ]}
+        maskClosable
+        onCancel={() => setVisible(false)}
+        visible={visible}
+        width={width || 400}
+      >
+        {modalContent}
+      </Modal>
+    </S.Wrapper>
   );
-}
+};
 
-Modal.propTypes = {
+export default Index;
+
+Index.propTypes = {
+  buttontitle: PropTypes.string,
+  cancelTitle: PropTypes.string,
+  handleCancel: PropTypes.func,
+  handleClick: PropTypes.func,
+  handleVisible: PropTypes.func,
+  isReport: PropTypes.bool,
   modalContent: PropTypes.func,
+  noButton: PropTypes.bool,
   setVisible: PropTypes.func,
-  changeWidth: PropTypes.string,
-
-  trigger: PropTypes.func,
+  showCancelBtn: PropTypes.func,
+  title: PropTypes.string,
   visible: PropTypes.bool,
-  widthFit: PropTypes.string,
+  width: PropTypes.number,
 };
 
-Modal.defaultProps = {
-  visible: true,
-};
-
-const ModalTrigger = ({ children, handleClose, show, widthFit }) => {
-  const showHideClassName = show
-    ? "backdrop display-block"
-    : "backdrop display-none";
-
-  return (
-    <div className={showHideClassName}>
-      <section className={`modal-main  image-modal ${widthFit}`}>
-        {children}
-        <button
-          className="fade-btn abs-btn"
-          onClick={handleClose}
-          type="button"
-        >
-          <img alt="close" src={close} />
-        </button>
-      </section>
-    </div>
-  );
-};
-
-ModalTrigger.propTypes = {
-  children: PropTypes.func,
-  handleClose: PropTypes.func,
-  show: PropTypes.func,
-  widthFit: PropTypes.string,
+Index.defaultProps = {
+  isReport: false,
+  showCancelBtn: true,
 };

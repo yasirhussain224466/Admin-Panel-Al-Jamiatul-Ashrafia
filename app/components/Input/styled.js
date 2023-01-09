@@ -82,7 +82,7 @@ export const DateInput = styled.div`
 
 export const Wrapper = styled.div`
   .input_label {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     margin-top: 0;
     letter-spacing: 0.1px;
     font-size: ${({ theme }) => theme.fontSizes.small};
@@ -99,12 +99,12 @@ export const Wrapper = styled.div`
   .with-input,
   .with-input-error {
     font-size: ${({ theme }) => theme.fontSizes.medium};
-    margin: 0;
+    margin: 0px 0px 0px 0px;
     outline: none;
     border-width: 1px !important;
     border: 1px solid ${({ theme }) => theme.colors.darkGreyish};
     background-color: rgba(0, 0, 0, 0);
-    border-radius: 10px;
+    border-radius: 4px;
     height: 28px;
     color: ${({ theme }) => theme.colors.black};
     width: 100%;
@@ -129,12 +129,12 @@ export const Wrapper = styled.div`
 
   .input:hover {
     box-shadow: 0 0 5px ${({ theme }) => theme.colors.bg2};
-    border-color: ${({ theme }) => theme.colors.deepblue};
+    border-color: ${({ theme }) => theme.colors.skyBlue};
   }
 
   .input:focus {
-    box-shadow: 0 0 5px ${({ theme }) => theme.colors.bg2};
-    border: 1px solid ${({ theme }) => theme.colors.deepblue};
+    box-shadow: 0 0 0px ${({ theme }) => theme.colors.skyBlue};
+    border: 1px solid ${({ theme }) => theme.colors.skyBlue};
     padding: 15px 10px;
     transition: 0.3s;
   }
@@ -146,9 +146,9 @@ export const Wrapper = styled.div`
     height: 14px;
   }
   .fade-btn {
-    border: none;
-    background-color: rgba(0, 0, 0, 0);
-    outline: none;
+    // border: none;
+    // background-color: rgba(0, 0, 0, 0);
+    // outline: none;
   }
   .with-input,
   .with-input-error,
@@ -172,17 +172,25 @@ export const Wrapper = styled.div`
     width: 20px;
   }
 
+  .Passwordflex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .with-input:focus-within {
     box-shadow: 0 0 5px ${({ theme }) => theme.colors.bg2};
-    border: 1px solid ${({ theme }) => theme.colors.deepblue};
+    border: 1px solid ${({ theme }) => theme.colors.skyBlue};
     padding: 15px 10px;
     transition: 0.3s;
   }
 
   .pass-input {
+    padding: 0px;
     border: none;
     outline: none;
     max-width: 85%;
+    border-radius: 3px;
   }
 
   /* .with-input-error input::placeholder {
@@ -228,5 +236,8 @@ export const Wrapper = styled.div`
 
   .error-border {
     border: 1px solid ${({ theme }) => theme.colors.yellowishOrange};
+  }
+  .input {
+    margin-bottom: 20px;
   }
 `;

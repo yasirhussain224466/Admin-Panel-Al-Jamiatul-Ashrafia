@@ -2,17 +2,19 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const RouteUnauth = (props) => {
-  const state = useSelector(({ global, login }) => ({
-    login,
-    global,
-  }));
-  const {
-    global: { currentUser },
-    login: { isLoggedIn },
-  } = state;
+import storage from "@/utils/storage";
 
-  if (currentUser && isLoggedIn) return <Redirect to="/" />;
+const RouteUnauth = (props) => {
+  const currentUser = useSelector((state) => state.global.currentUser);
+
+  // eslint-disable-next-line react/prop-types
+  if (props?.path?.includes("set-password")) {
+    if (storage.get("access_token")) {
+      storage.clear();
+    }
+  }
+
+  if (currentUser) return <Redirect to="/" />;
 
   return <Route {...props} />;
 };

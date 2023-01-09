@@ -1,21 +1,21 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
-import ErrorMessage from "../ErrorMessage";
-
-import * as S from "./styled";
-
 import visibility from "@/assets/images/visibility.svg";
 import visibilityOff from "@/assets/images/visibilityOff.svg";
 
+import ErrorMessage from "../ErrorMessage/index";
+
+import * as S from "./styled";
+
 const TextInput = ({
+  disabled,
   error,
   label,
   onBlur,
   onChange,
   placeholder,
   value,
-  disabled,
 }) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const togglePasswordVisiblity = () => {
@@ -26,13 +26,13 @@ const TextInput = ({
     <S.Wrapper>
       <h6 className="input_label">{label}</h6>
       <div
-        className={`flex ${
+        className={`Passwordflex ${
           error ? "with-input-error error-border" : "with-input"
         }  j-btw ${error && "red-border"}`}
       >
         <input
-          disabled={disabled}
           className="pass-input"
+          disabled={disabled}
           onBlur={onBlur}
           onChange={onChange}
           placeholder={placeholder}
@@ -63,11 +63,13 @@ TextInput.propTypes = {
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
   value: PropTypes.string,
+  // eslint-disable-next-line react/sort-prop-types
   disabled: PropTypes.bool,
 };
 
 TextInput.defaultProps = {
   error: "",
+  // eslint-disable-next-line react/jsx-sort-default-props
   disabled: false,
 };
 export default TextInput;

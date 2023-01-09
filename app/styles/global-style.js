@@ -1,5 +1,8 @@
 import { createGlobalStyle, css } from "styled-components";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+// import "antd/dist/antd.css";
 import popins_light from "../assets/fonts/Poppins-Light.otf";
 import popins_medium from "../assets/fonts/Poppins-Medium.otf";
 
@@ -106,6 +109,7 @@ const reset = css`
   }
   body {
     line-height: 1;
+    background-color: white !important;
   }
   img {
     vertical-align: middle;
@@ -154,24 +158,14 @@ const reset = css`
 `;
 
 const base = css`
-  /* body { */
-  /* @font-face {
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 400;
-    src: url("dist/fonts.css");
-  } */
-
   @font-face {
     font-family: "Poppins-Light";
     font-style: normal;
-    /* font-weight: 400; */
     src: url(${popins_light}) format("opentype");
   }
   @font-face {
     font-family: "Poppins-Medium";
     font-style: normal;
-    /* font-weight: 400; */
     src: url(${popins_medium}) format("opentype");
   }
   .flex {
@@ -183,6 +177,7 @@ const base = css`
   }
   html,
   body {
+    background-color: white !important;
     height: 100%;
     width: 100%;
     line-height: 1.5;

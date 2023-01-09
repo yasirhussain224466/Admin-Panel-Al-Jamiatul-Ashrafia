@@ -3,40 +3,32 @@ import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-import { getTokens } from "@/utils/auth";
-import ErrorPage from "@/components/ErrorPage";
+import AuthLayout from "@/containers/AuthLayout";
+import storage from "@/utils/storage";
 
-const RouteAuth = ({ component: Component, roles, ...rest }) => {
-  const { currentUser } = useSelector((state) => state.global);
-  const { access_token } = getTokens();
+// eslint-disable-next-line react/prop-types
+const RouteAuth = ({ component: Component, ...rest }) => {
+  const currentUser = useSelector((state) => state?.global?.currentUser);
 
-  if (!currentUser && !access_token) {
-    return <Redirect from="*" to="/login" />;
+  if (!storage.get("access_token") && !currentUser) {
+    storage.set("path", JSON.stringify(rest?.computedMatch?.url));
   }
 
-  if (access_token && currentUser && !roles.includes(currentUser?.role)) {
-    return (
-      <Route
-        component={() => (
-          <ErrorPage
-            status={404}
-            title={"We can't seem to find that."}
-            subTitle="The page you are looking for doesn't exist or has been moved."
-          />
-        )}
-      />
-    );
-  }
+  if (!storage.get("access_token") && !currentUser)
+    return <Redirect to="/login" />;
+  storage.remove("path");
 
   return (
     <Route {...rest}>
-      <Component title={rest?.title} />
+      <AuthLayout>
+        <Component />
+      </AuthLayout>
     </Route>
   );
 };
 
 RouteAuth.propTypes = {
-  component: PropTypes.func.isRequired,
-  roles: PropTypes.arrayOf(PropTypes.string).isRequired,
+  component: PropTypes.element,
 };
+
 export default RouteAuth;

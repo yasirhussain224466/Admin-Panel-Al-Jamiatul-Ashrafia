@@ -1,64 +1,44 @@
 import { lazy } from "react";
 
-import { ROLES } from "@/utils/constants";
-
-import RouteAuth from "./RouteAuth";
+// import RouteAuth from "./RouteAuth";
 import RouteUnauth from "./RouteUnauth";
 
-const LoginEmail = lazy(() => import("@/containers/PageLogin"));
-const Dashboard = lazy(() => import("@/containers/PageDashboard"));
+const Login = lazy(() => import("@/containers/PageLogin"));
 const RecoverPassword = lazy(() => import("@/containers/PageRecoverPassword"));
-const Notifications = lazy(() =>
-  import("@/containers/PageDashboard/Notifications"),
-);
-const RecentActivity = lazy(() =>
-  import("@/containers/PageDashboard/RecentActivity"),
-);
+const setPassword = lazy(() => import("@/containers/SetPassword"));
+const home = lazy(() => import("@/containers/Dashboard/Home"));
+
+const InvalidScreen = lazy(() => import("@/containers/InvalidScreen"));
 
 export const ROUTES = [
   {
-    path: "/",
-    component: Dashboard,
+    path: "/login",
+    component: Login,
     routeComponent: RouteUnauth,
     exact: true,
-    // roles: [ROLES.admin.value],
-    title: "Dashboard",
   },
   {
-    path: "/login",
-    component: LoginEmail,
+    path: "/",
+    component: home,
     routeComponent: RouteUnauth,
-    roles: [],
+    exact: true,
   },
-
   {
-    path: "/forgot/:token?",
+    path: "/forgot-password/:token?",
     component: RecoverPassword,
     routeComponent: RouteUnauth,
     roles: [],
   },
-
   {
-    path: "/notifications",
-    component: Notifications,
-    routeComponent: RouteAuth,
-    roles: [
-      ROLES.admin.value,
-      ROLES.accountManager.value,
-      ROLES.tpaAccountManager.value,
-      ROLES.tpaAdmin.value,
-    ],
-    title: "Notifications",
+    path: "/set-password/:token?",
+    component: setPassword,
+    routeComponent: RouteUnauth,
+    roles: [],
   },
   {
-    path: "/recent-claim-activity",
-    component: RecentActivity,
-    routeComponent: RouteAuth,
-    roles: [
-      ROLES.admin.value,
-      ROLES.accountManager.value,
-      ROLES.tpaAccountManager.value,
-      ROLES.tpaAdmin.value,
-    ],
+    path: "/operation-not-supported",
+    component: InvalidScreen,
+    routeComponent: RouteUnauth,
+    roles: [],
   },
 ];

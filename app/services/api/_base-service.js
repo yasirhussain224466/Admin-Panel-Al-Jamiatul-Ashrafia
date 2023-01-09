@@ -1,6 +1,6 @@
-/* eslint-disable */
+/* eslint-disable consistent-return */
+// eslint-disable-next-line import/no-cycle
 import axios from "@/utils/axios";
-import NotificationStatus from "@/components/Notification";
 
 export default class BaseService {
   constructor(instance = axios) {
@@ -26,27 +26,11 @@ export default class BaseService {
   async execute(method, ...args) {
     try {
       const response = await this.instance[method](...args);
-      return Promise.resolve(response?.data);
+      return Promise.resolve(response.data);
     } catch (error) {
-      let { message, status } = error?.response?.data;
-      if (!message) {
-        message = "Something went wrong";
+      if (error?.response) {
+        return Promise.reject(error ? error.response.data : "Network error");
       }
-      if (!status) {
-        status = 500;
-      }
-      // if (message.includes("jwt expired")) {
-      //   return;
-      // }
-
-      console.log(error);
-
-      // if (message.includes("refresh token expired")) {
-      //   localStorage.clear();
-      // }
-
-      NotificationStatus(status === 201 ? "warning" : "error", message);
-      return Promise.reject(error?.response?.data);
     }
   }
 }

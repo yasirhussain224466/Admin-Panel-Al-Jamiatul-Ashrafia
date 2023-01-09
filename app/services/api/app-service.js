@@ -1,329 +1,217 @@
-/* eslint-disable */
+/* eslint-disable no-underscore-dangle */
 import BaseService from "./_base-service";
 
 class AppService extends BaseService {
-  addCategory(data) {
-    return this.post("/category", data);
-  }
-
-  getClaim(data) {
-    return this.get(
-      `/claim/claimsPaginated?search=${data.search}&status=${
-        data.claimStatus
-      }&claim_type=${data.type}&to=${data.toDate}&from=${
-        data.fromDate
-      }&pageSize=${data.pagination.pageSize}&current=${
-        data.pagination.current
-        // eslint-disable-next-line
-      }${data.extraSearch}${
-        // eslint-disable-next-line
-        data.listed === "me" ? "&listed=" + data.listed : ""
-      }`,
-    );
-  }
-
-  getParticularClaim(claim_id) {
-    return this.get(`/claim/${claim_id}`);
-  }
-
-  addClaim(data) {
-    return this.post(`/claim`, data);
-  }
-
-  addClaimImages(data) {
-    const claimId = data?.claimId;
-    return this.put(`/claim/claimImages/${claimId}`, data);
-  }
-
-  updateClaim(data) {
-    return this.put(`/claim/${data._id}`, data);
-  }
-
-  memberInfoClaim(data) {
-    return this.put(`/claim/member/${data._id}`, data);
-  }
-
-  updateMemberReivewInClaim(data) {
-    return this.put(`/claim/isReviewed/${data._id}`, data);
-  }
-
-  requestedByMemberOrTechnician(data) {
-    if (data?.member) {
-      return this.put(`/claim/requestedByMember/${data?._id}`, data);
+  getCompanies(data) {
+    let sort;
+    if (data?.sort === "ascend") {
+      sort = 1;
+    } else if (data?.sort === "descend") {
+      sort = -1;
     }
-    return this.put(`/claim/requestedByTechnician/${data?._id}`, data);
-  }
 
-  getCategoryWithChilds() {
-    return this.get(`/category/parents`);
-  }
-
-  updateCategory(data) {
-    return this.put(`/category/${data.id}`, data);
-  }
-
-  deleteCategory(id) {
-    return this.delete(`/category/${id}`);
-  }
-
-  getAdditinalClaimItem() {
-    return this.get("/additionalClaimItems");
-  }
-
-  addAdditinalClaimItem(data) {
-    return this.post("/additionalClaimItems", data);
-  }
-
-  updateAdditional(data) {
-    return this.put(`/additionalClaimItems/${data.id}`, data);
-  }
-
-  deleteAdditional(id) {
-    return this.delete(`/additionalClaimItems/${id}`);
-  }
-
-  pushMisCat(data) {
-    return this.post(`/miscCategory`, data);
-  }
-
-  updateMisCat(data) {
-    return this.put(`/miscCategory/${data._id}`, data);
-  }
-
-  deleteMisCat({ id, type }) {
-    return this.delete(`/miscCategory/${id}?type=${type}`);
-  }
-
-  getUsers(data) {
     return this.get(
-      `/profile/getProfiles?pageSize=${data.pageSize}&current=${data.current}`,
+      `/companies?page=${data?.page}&limit=${data?.limit}&status=${data?.status}&search=${data?.search}&sort=${sort}`,
     );
   }
 
-  getProfile(id) {
-    return this.get(`/profile/${id}`);
+  getReportSeparatedByCompany(tab, pagination) {
+    const key = parseInt(tab?.queryKey[1], 10);
+    // eslint-disable-next-line no-nested-ternary
+    const status = key === 2 ? true : key === 3 ? false : undefined;
+    return this.get(
+      `/companies/campusSeparatedByReportType?status=${status}&page=${pagination?.page}&limit=${pagination?.limit}&search=${pagination?.search}&completed=${pagination.completed}`,
+      {
+        timeout: 1000000,
+      },
+    );
   }
 
-  getProfileTotal() {
-    return this.get("/profile/total");
+  getAlUsers(data) {
+    return this.get(
+      `/users?page=${data?.page}&limit=${data?.limit}&status=${data?.status}&search=${data?.search}`,
+    );
   }
 
-  addUsers(data) {
-    return this.post("/user", data);
+  getCampuses(data) {
+    let sort;
+    if (data?.sort === "ascend") {
+      sort = 1;
+    } else if (data?.sort === "descend") {
+      sort = -1;
+    }
+
+    return this.get(
+      `/campuses?page=${data?.page}&limit=${data?.limit}&status=${data?.status}&search=${data?.search}&company_id=${data?.companyId}&sort=${sort}`,
+    );
+  }
+
+  getCompanyTeam(data, companyId) {
+    return this.get(
+      `/companies/teams?companyId=${companyId}&page=${data?.page}&limit=${data?.limit}&${data?.searchedColumn}=${data?.searchText}&status=${data?.status}&search=${data?.search}`,
+    );
+  }
+
+  addCompany(data) {
+    return this.post("/companies", data);
+  }
+
+  // eslint-disable-next-line consistent-return
+  getParticularCompany(id) {
+    if (id) {
+      return this.get(`/companies/${id}`);
+    }
+  }
+
+  getParticularBuilding(id) {
+    return this.get(`/buildings/${id}`);
+  }
+
+  getParticularCampus(id) {
+    return this.get(`/campuses/${id}`);
+  }
+
+  addBuilding(data) {
+    return this.post(`/buildings`, data);
+  }
+
+  addCampus(data) {
+    return this.post(`/campuses`, data);
+  }
+
+  updateCompany(data) {
+    return this.put(`/companies/${data.companyId}`, data);
+  }
+
+  addAndUpdateCompany(data) {
+    console.log(data);
+    if (data?._id) {
+      return this.put(`/companies/${data._id}`, data);
+    }
+    // eslint-disable-next-line no-param-reassign
+    delete data._id;
+    return this.post("/companies", data);
+  }
+
+  updateCampus(data) {
+    if (data?._id) {
+      return this.put(`/campuses/${data._id}`, data);
+    }
+    // eslint-disable-next-line no-param-reassign
+    delete data._id;
+    return this.post("/campuses", data);
+  }
+
+  getRoles() {
+    return this.get("/roles");
+  }
+
+  getBuildings(id) {
+    return this.get(`/buildings?campusId=${id}&page=1&limit=50`);
+  }
+
+  getBuildingRooms(data) {
+    return this.get(
+      `/rooms?buildingId=${data.BuildingId}&departmentId=${data.departmentId}&${data?.searchedColumn}=${data?.searchText}&search=${data.search}&page=${data.page}&limit=${data.limit}&status=${data.status}`,
+    );
+  }
+
+  getParticularRoom(room_id) {
+    return this.get(`/rooms/${room_id}`);
+  }
+
+  getAllCampusesOfCompany(data) {
+    return this.get(
+      `/campuses?page=${data?.page}&limit=${data?.limit}&status=${data?.status}&company_id=${data?.companyId}`,
+    );
   }
 
   updateUser(data) {
-    return this.put(`user/${data._id}`, data);
+    return this.put(`/users/${data?._id}`, data);
   }
 
-  updateProfile(data) {
-    return this.put(`/profile/${data._id}`, data);
+  deleteUser(data) {
+    return this.delete(`/users/${data?._id}`, data);
   }
 
-  getTpas(data) {
-    return this.get(`/tpa?pageSize=${data.pageSize}&current=${data.current}`);
+  addUser(data) {
+    if (data?._id) {
+      return this.put(`/users/${data?._id}`, data);
+    }
+    return this.post(`/users`, data);
   }
 
-  getClaimData(data) {
+  UpdateRole(data) {
+    return this.put(`/roles/${data?._id}`, data);
+  }
+
+  addWSSUser(data) {
+    return this.post("/users", data);
+  }
+
+  removeUser(id) {
+    return this.delete(`/users/${id}`);
+  }
+
+  searchCampuses(data) {
     return this.get(
-      `/claim/claimsPaginated?pageSize=${data.pageSize}&current=${data.current}`,
+      `/campuses/search?status=${data?.status}&search=${data?.search}`,
     );
   }
 
-  getTpaTotal() {
-    return this.get(`/tpa/total`);
-  }
-
-  getSearchTpa(current) {
-    return this.get(`/tpa?current=${current}`);
-  }
-
-  addTpa(data) {
-    return this.post("/tpa", data);
-  }
-
-  getTpa(id) {
-    return this.get(`/tpa/${id}?populated=${true}`);
-  }
-
-  updateTpa(data) {
-    return this.put(`/tpa/${data._id}`, data);
-  }
-
-  searchTpa(val) {
-    return this.get(`/tpa/search?search=${val}`);
-  }
-
-  getTechnicians(data) {
+  searchCompanies(data) {
     return this.get(
-      `/technician?pageSize=${data.pageSize}&current=${data.current}`,
+      `/companies/search?status=${data?.status}&search=${data?.search}`,
     );
   }
 
-  getTechnicianTotal() {
-    return this.get(`/technician/total`);
+  getCampus(id) {
+    return this.get(`/campuses/${id}`);
   }
 
-  getSearchTechnician(current) {
-    return this.get(`/technician?current=${current}`);
+  getAllPermissions() {
+    return this.get("/permission");
   }
 
-  addTechnician(data) {
-    return this.post("/technician", data);
+  addRoles(data) {
+    return this.post("/roles", data);
   }
 
-  getTechnician(id) {
-    return this.get(`/technician/${id}`);
+  getAllRoles() {
+    return this.get("/roles");
   }
 
-  getTechnicianPopulatedCategory(id) {
-    return this.get(`/technician/${id}?populateCategory=${true}`);
-  }
-
-  getTechnicianSortedByDistance(data) {
+  searchPermissions(data) {
     return this.get(
-      `/technician/sort_by?lat=${data?.lat}&lng=${data?.lng}&category=${data?.category}&minDistance=${data?.minDistance}&excludedIds=${data?.excludedIds}&isShowAll=${data?.isShowAllTech}`,
+      `/permissions/search?status=${data?.status}&search=${data?.search}`,
     );
   }
 
-  // eslint-disable-next-line
-  addTechncianRating(data) {
-    return this.post(`/rating/${data?._id}`, data);
-  }
-
-  updatetechnician(data) {
-    return this.put(`/technician/${data._id}`, data);
-  }
-
-  searchTechnician(val) {
-    console.log(val);
+  getReportElementsOfSpecificReportType(queryData) {
+    const query = queryData?.queryKey[1];
     return this.get(
-      `/technician/search?search=${val?.search}&searchArray=${
-        val?.searchArray?.length > 0 ? JSON.stringify(val?.searchArray) : []
-      }`,
+      `/reportElements/getReportElementsOfSpecificReportTypeInCampus?campus=${query?.campus}&report_type=${query.reportType}`,
     );
   }
 
-  upload(data) {
-    return this.post("/upload", data, {
-      timeout: 60000,
+  publishReports(data) {
+    return this.put(`/reportElements/publishReports`, data, {
+      timeout: 800000,
     });
   }
 
-  removeImage(key) {
-    return this.delete(`/deleteFile/${key}`);
-  }
-
-  getAllClaimStatus(listed) {
-    return this.get(`/claim/getCountOfStatus?listed=${listed}`);
-  }
-
-  deleteUser(id) {
-    return this.delete(`/user/${id}`);
-  }
-
-  getNotification(data) {
+  downloadReports(data) {
     return this.get(
-      `/notifications?pageSize=${data.pageSize}&current=${data.current}`,
-    );
-  }
-
-  getNotificationTotal() {
-    return this.get(`/notifications/total`);
-  }
-
-  addSeenNotification(id) {
-    return this.put(`/notifications/seen/${id}`);
-  }
-
-  getClaimActivity(data) {
-    return this.get(
-      `/recentClaimActivity?pageSize=${data.pageSize}&current=${data.current}`,
-    );
-  }
-
-  getClaimActivityTotal() {
-    return this.get(`/recentClaimActivity/total`);
-  }
-
-  addSeenClaim(id) {
-    return this.put(`/recentClaimActivity/seen/${id}`);
-  }
-
-  getClaimNotes(data) {
-    return this.get(
-      `notes?claim=${data?.claim}&type=notes&pageSize=${data?.pageSize}&current=${data?.current}`,
-    );
-  }
-
-  getTechnicalClaimNotes(data) {
-    return this.get(
-      `notes?claim=${data?.claim}&type=technical_notes&pageSize=${data?.pageSize}&current=${data?.current}`,
-    );
-  }
-
-  getInternalClaimNotes(data) {
-    return this.get(
-      `notes?claim=${data?.claim}&type=internal_notes&pageSize=${data?.pageSize}&current=${data?.current}`,
-    );
-  }
-
-  updateClaimNotes(data) {
-    return this.put(`/notes/${data._id}`, data);
-  }
-
-  deleteClaimNotes(id) {
-    return this.delete(`/notes/${id}`);
-  }
-
-  getClaimNotesTotal() {
-    return this.get(`/notes/total`);
-  }
-
-  addClaimNotes(data) {
-    return this.post("/notes", data);
-  }
-
-  getParticularCategory(id) {
-    return this.get(`/category/${id}`);
-  }
-
-  getTechnicianByLocationId(loc_id, location) {
-    console.log(loc_id, location);
-    return this.get(
-      `/technician/getTechnicianByLocation/${loc_id}?lat=${location.lat}&lng=${location.lng}`,
-    );
-  }
-
-  getVehicleYears() {
-    return this.get(`/vehicle/year`);
-  }
-
-  importFile(data) {
-    console.log(data);
-    return this.post("/importExport/claims", data);
-  }
-
-  exportClaims() {
-    return this.get("/importExport/claims");
-  }
-
-  addCarvanaClaim(data) {
-    return this.post("/claim/carvana/addClaim", data);
-  }
-  verifyTpa(data) {
-    return this.put(
-      `/claim/carvana/verifyTpa/${data?.id}?verified=${data?.verified}`,
+      `/publishedReports/latest?campus=${data?.campus}&report_type=${data?.report_type}`,
       data,
+      {
+        timeout: 600000,
+      },
     );
   }
 
-  getCarByCarTypeAndSubType(data) {
-    return this.get(`/vehicleCanvas?canvasType=${data?.type}`);
-  }
-
-  manuallyRequested(data) {
-    return this.put(`/claim/manuallyRequested/${data?.claim_id}`, data);
+  getLogs(limit) {
+    return this.get(`/logs?limit=${limit}`);
   }
 }
 

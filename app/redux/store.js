@@ -1,7 +1,4 @@
-/**
- * Create the store with dynamic reducers
- */
-
+/* eslint-disable import/no-import-module-exports */
 import { createStore, applyMiddleware, compose } from "redux";
 import { routerMiddleware } from "connected-react-router";
 import { createInjectorsEnhancer, forceReducerReload } from "redux-injectors";

@@ -7,7 +7,7 @@ const NotificationStatus = (type, message, description) => {
       marginTop: 50,
     },
     description: description || "",
-    message: message || "Dent Doc Connect",
+    message: message || "Fixture Care",
   });
 };
 

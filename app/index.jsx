@@ -3,11 +3,10 @@ import "regenerator-runtime/runtime";
 import { hot } from "react-hot-loader/root";
 import React from "react";
 import ReactDOM from "@hot-loader/react-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 import { ConnectedRouter } from "connected-react-router";
-import { QueryClientProvider, QueryClient } from "react-query";
-// import { useDispatch } from "react-redux";
 
 import theme from "@/styles/theme";
 import GlobalStyle from "@/styles/global-style";

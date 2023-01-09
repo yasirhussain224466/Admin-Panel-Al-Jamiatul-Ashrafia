@@ -7,6 +7,8 @@ const Dotenv = require("dotenv-webpack");
 const base = require("./webpack.base");
 const { appPath, outputPath } = require("./constants");
 
+require("dotenv").config();
+
 module.exports = merge(base, {
   mode: "production",
   entry: appPath,
@@ -47,9 +49,14 @@ module.exports = merge(base, {
         },
       },
     }),
+
     new Dotenv({
-      systemvars: true,
+      path: `./.env`,
     }),
+
+    // new webpack.DefinePlugin({
+    //   "process.env.END_POINT_URL": JSON.stringify(process.env.END_POINT_URL),
+    // }),
   ],
 
   // See https://webpack.js.org/configuration/devtool/#devtool
