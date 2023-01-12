@@ -9,7 +9,7 @@ import storage from "@/utils/storage";
 import NotificationStatus from "@/components/Notification";
 
 const axios = axiosBase.create({
-  baseURL: process.env.END_POINT_URL,
+  baseURL: "http://localhost:8081/api",
   timeout: 30000,
 });
 

@@ -1,5 +1,56 @@
 import styled from "styled-components";
 
+export const ContactUs = styled.div`
+  .heading {
+    padding-right: 20px;
+    width: 90px;
+    font-weight: bold;
+  }
+  .title {
+    // font-size: 20px;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #0094c2;
+  }
+  .input_label {
+    margin-bottom: 5px;
+    margin-top: 0;
+    letter-spacing: 0.1px;
+    font-size: ${({ theme }) => theme.fontSizes.small};
+    color: ${({ theme }) => theme.colors.gray2};
+  }
+  .compliance {
+    font-size: 12px;
+    color: #8a9099;
+    padding-bottom: 12px;
+  }
+  .margin-left {
+    margin-left: 3px;
+  }
+  .paddingtop {
+    padding-top: 4px;
+  }
+  .textField {
+    border-radius: 3px;
+  }
+  .md-04 {
+    display: flex;
+    justify-content: space-between;
+  }
+  .nd-04 {
+    width: 210px;
+    margin-top: 0px;
+    margin-right: 10px;
+  }
+  .pd-04 {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  .pad {
+    padding: 10px 5px 10px 0px;
+  }
+`;
+
 export const BackDrop = styled.div`
   position: fixed;
   top: 0;

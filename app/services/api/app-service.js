@@ -15,6 +15,18 @@ class AppService extends BaseService {
     );
   }
 
+  getContactUsForms() {
+    return this.get(`/contactUs`);
+  }
+
+  updateContactUsForm(data) {
+    return this.put(`/contactUs/${data?._id}`, data);
+  }
+
+  markReadOrUnread(data) {
+    return this.put(`/contactUs/markAsRead`, data);
+  }
+
   getReportSeparatedByCompany(tab, pagination) {
     const key = parseInt(tab?.queryKey[1], 10);
     // eslint-disable-next-line no-nested-ternary

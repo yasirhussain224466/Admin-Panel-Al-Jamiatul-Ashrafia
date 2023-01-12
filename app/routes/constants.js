@@ -7,6 +7,8 @@ const Login = lazy(() => import("@/containers/PageLogin"));
 const RecoverPassword = lazy(() => import("@/containers/PageRecoverPassword"));
 const setPassword = lazy(() => import("@/containers/SetPassword"));
 const home = lazy(() => import("@/containers/Dashboard/Home"));
+const onlineFatwa = lazy(() => import("@/containers/Dashboard/online-fatwa"));
+const becomeMureed = lazy(() => import("@/containers/Dashboard/become-mureed"));
 
 const InvalidScreen = lazy(() => import("@/containers/InvalidScreen"));
 
@@ -20,6 +22,18 @@ export const ROUTES = [
   {
     path: "/",
     component: home,
+    routeComponent: RouteUnauth,
+    exact: true,
+  },
+  {
+    path: "/online-fatwa",
+    component: onlineFatwa,
+    routeComponent: RouteUnauth,
+    exact: true,
+  },
+  {
+    path: "/become-mureed",
+    component: becomeMureed,
     routeComponent: RouteUnauth,
     exact: true,
   },
