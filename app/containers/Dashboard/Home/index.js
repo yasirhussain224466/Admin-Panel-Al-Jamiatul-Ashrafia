@@ -1,5 +1,6 @@
-import React from "react";
-import { Table, Tag, Button } from "antd";
+/* eslint-disable react/jsx-curly-newline */
+import React, { useEffect, useState } from "react";
+import { Table, Tag, Button, Tabs } from "antd";
 import { useQuery, useMutation } from "react-query";
 import moment from "moment";
 
@@ -7,9 +8,10 @@ import appService from "@/services/api/app-service";
 import PageLayout from "@/containers/PageLayout";
 import Modal from "@/components/Modal";
 import ContactUs from "@/components/Modal/contactUsPopup";
-import Dropdown from "@/components/Dropdown";
+import Dropdown from "@/components/DropDown";
 
 import * as S from "./styled";
+const { TabPane } = Tabs;
 
 const columns = [
   {
@@ -53,9 +55,11 @@ const columns = [
   },
 ];
 const optionState = ["Mark all as seen", "Mark all as unseen"];
+
 const Index = () => {
-  const [visible, setVisible] = React.useState("");
-  const [rowData, setRowData] = React.useState("");
+  const [visible, setVisible] = useState("");
+  const [rowData, setRowData] = useState("");
+  const [seen, setSeen] = useState(undefined);
 
   const handleVisible = () => {
     setVisible(true);
@@ -69,6 +73,9 @@ const Index = () => {
     });
   };
 
+  useEffect(() => {
+    refetch();
+  }, [seen]);
   const MarkSeen = (bool) => {
     mutateReadOrUnread({
       seen: bool,
@@ -79,8 +86,7 @@ const Index = () => {
     isFetching,
     isLoading,
     refetch,
-  } = useQuery("contact-us", () => appService.getContactUsForms());
-
+  } = useQuery(["contact-us", seen], () => appService.getContactUsForms(seen));
   const { mutate } = useMutation(
     (data) => appService.updateContactUsForm(data),
     {
@@ -98,7 +104,15 @@ const Index = () => {
       },
     },
   );
-  // console.log(contactUsForms);
+  const changeTab = (e) => {
+    if (e === "1") {
+      setSeen(undefined);
+    } else if (e === "2") {
+      setSeen(true);
+    } else {
+      setSeen(false);
+    }
+  };
   return (
     <>
       <PageLayout>
@@ -143,17 +157,62 @@ const Index = () => {
             visible={visible}
             width={500}
           />
-          <Table
-            bordered
-            columns={columns}
-            dataSource={contactUsForms?.data}
-            loading={isLoading || isFetching}
-            onRow={(data) => ({
-              onClick: () => handleRow(data),
-            })}
-            pagination={false}
-            style={{ overflowX: "scroll" }}
-          />
+          <Tabs defaultActiveKey="1" onChange={changeTab}>
+            <TabPane
+              key="1"
+              tab={contactUsForms ? `ALL (${contactUsForms?.total})` : "ALL"}
+            >
+              <Table
+                bordered
+                columns={columns}
+                dataSource={contactUsForms?.data}
+                loading={isLoading || isFetching}
+                onRow={(data) => ({
+                  onClick: () => handleRow(data),
+                })}
+                pagination={false}
+                style={{ overflowX: "scroll" }}
+              />
+            </TabPane>
+            <TabPane
+              key="2"
+              tab={
+                contactUsForms ? `SEEN (${contactUsForms?.seenLen})` : "SEEN"
+              }
+            >
+              <Table
+                bordered
+                columns={columns}
+                dataSource={contactUsForms?.data}
+                loading={isLoading || isFetching}
+                onRow={(data) => ({
+                  onClick: () => handleRow(data),
+                })}
+                pagination={false}
+                style={{ overflowX: "scroll" }}
+              />
+            </TabPane>
+            <TabPane
+              key="3"
+              tab={
+                contactUsForms
+                  ? `UNSEEN (${contactUsForms?.unSeenLen})`
+                  : "UNSEEN"
+              }
+            >
+              <Table
+                bordered
+                columns={columns}
+                dataSource={contactUsForms?.data}
+                loading={isLoading || isFetching}
+                onRow={(data) => ({
+                  onClick: () => handleRow(data),
+                })}
+                pagination={false}
+                style={{ overflowX: "scroll" }}
+              />
+            </TabPane>
+          </Tabs>
         </S.Wrapper>
       </PageLayout>
     </>

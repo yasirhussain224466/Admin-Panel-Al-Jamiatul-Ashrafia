@@ -15,8 +15,8 @@ class AppService extends BaseService {
     );
   }
 
-  getContactUsForms() {
-    return this.get(`/contactUs`);
+  getContactUsForms(data) {
+    return this.get(`/contactUs?seen=${data}`);
   }
 
   updateContactUsForm(data) {
